@@ -32,8 +32,22 @@ app.get('/', function(req, res){
 
   
 // your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+app.post('/api/shorturl/new', function (req, res) {
+    dbConn.then(function(db) {
+        delete req.body._id; // for safety reasons
+        db.collection('feedbacks').insertOne(req.body);
+    });    
+   let short_url= Math.floor(Math.random()*200);
+    res.json({"original_url":req.body.url,
+             "short_url":short_url});
+});
+
+app.get('/api/shorturl/:new',  function(req, res) {
+    dbConn.then(function(db) {
+        db.collection('feedbacks').find({}).toArray().then(function(feedbacks) {
+            res.status(200).json(feedbacks);
+        });
+    });
 });
 
 
