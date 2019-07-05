@@ -45,11 +45,17 @@ app.get('/', function(req, res){
   
 // your first API endpoint... 
 app.post('/api/shorturl/new', (req,res,next)=>{
-  
+  let webUrl = new urlShortner({original_url:req.body.url,short_url:short_url++});
+  webUrl.save().then(newurl=>res.json(newurl));
+  next();
 });
   
 app.get('/api/shorturl/:surl', (req,res,next)=>{
-  
+  let Model = mongoose.model('urlShortner',urlSchema);
+  Model.find({ short_url: req.params.surl },function(err,data){
+    if (err) done(err);
+    done(null,data);
+  })
 });
 
 // not found
