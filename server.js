@@ -52,7 +52,7 @@ app.get('/', function(req, res){
   app.post('/api/shorturl/new', (req,res,next)=>{//POST START
     let reg= /^(?:http(s)?:\/\/)/gi;
     if(reg.test(req.body.url)){
-      let withoutHTTP = (req.body.url).match(/[^http://|https://]/g).join("");
+      let withoutHTTP = (req.body.url).match(/ /gi).join("");
       console.log(withoutHTTP)
     }
     //console.log(req.body.url)
