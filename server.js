@@ -51,22 +51,18 @@ app.get('/', function(req, res){
 //POST url to make it short
   app.post('/api/shorturl/new', (req,res,next)=>{//POST START
     let reg= /^(?:http(s)?:\/\/)/gi;
-    let validateUrl ="";
-    if(reg.test(req.body.url)){
+   
+   if(reg.test(req.body.url)){
       let withoutHTTP = req.body.url;
       withoutHTTP =withoutHTTP.replace(reg, "");
       dns.lookup(withoutHTTP, function (err, addresses, family) {
-       validateUrl=addresses;
+       console.log(addresses);
       });
     }else{
       dns.lookup(req.body.url, function (err, addresses, family) {
-       validateUrl=addresses;
+       console.log(addresses);
       });
     }
-    
-    // dns.lookup("www.canva.com", function (err, addresses, family) {
-    // //console.log(addresses);
-    // });
     
 //     urlShortner.find({original_url:req.body.url},(err,data)=>{
 //         if(err){
