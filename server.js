@@ -50,6 +50,9 @@ app.get('/', function(req, res){
 
 //api point
 //   app.post('/api/shorturl/new', (req,res,next)=>{
+
+     let counter = new uniqueCounter({counter:0});
+
 //   let webUrl = new urlShortner({original_url:req.body.url,short_url:process.env.COUNTER+1});
 //   webUrl.save((err,data)=>{
 //                       if (err) throw(err);
