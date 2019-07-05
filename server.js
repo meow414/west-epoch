@@ -11,6 +11,7 @@ let urlSchema = new Schema({
       original_url: String,
       short_url:  Number
     });
+let short_url=0;
 
 var urlShortner  = mongoose.model('urlShortner',urlSchema);
 
@@ -42,8 +43,8 @@ app.get('/', function(req, res){
 // your first API endpoint... 
 app.post('/api/shorturl/new', function (req, res) {
    urlShortner.create(req.body.url,function(err,data){
-      if(err) return done(err);
-            done(null, data);
+      if(err) return (err);
+        return   res.json({url:req.body.url});
     })
     
 });
