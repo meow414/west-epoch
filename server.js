@@ -45,12 +45,12 @@ app.get('/', function(req, res){
 
 //api point
   app.post('/api/shorturl/new', (req,res,next)=>{
-  let webUrl = new urlShortner({original_url:req.body.url,short_url:short_url++});
-  webUrl.save().then((err,newurl)=>{
+  let webUrl = new urlShortner({original_url:req.body.url,short_url:short_url+1});
+  webUrl.save((err,newurl)=>{
                       if (err) throw(err);
-                     return  res.json(newurl)
-                             });
-  next();
+                       return  res.json(newurl)
+                             }
+              );
 });
 
 // app.get('/api/shorturl/:surl', (req,res,next)=>{
