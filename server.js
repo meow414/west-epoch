@@ -51,20 +51,21 @@ app.get('/', function(req, res){
 //POST url to make it short
   app.post('/api/shorturl/new', (req,res,next)=>{//POST START
     let reg= /^(?:http(s)?:\/\/)/gi;
-   
+   let validateURL=()=>{
    if(reg.test(req.body.url)){
       let withoutHTTP = req.body.url;
       withoutHTTP =withoutHTTP.replace(reg, "");
       dns.lookup(withoutHTTP, function (err, addresses, family) {
-       
-       console.log(addresses);
+       return addresses;
       });
     }else{
       dns.lookup(req.body.url, function (err, addresses, family) {
-       console.log(addresses);
+       return addresses;
       });
     }
-    
+    }
+   
+   function handleURL()
 //     urlShortner.find({original_url:req.body.url},(err,data)=>{
 //         if(err){
 //                 throw (err);
