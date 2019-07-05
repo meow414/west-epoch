@@ -14,7 +14,6 @@ let urlSchema = new Schema({
       original_url: String,
       short_url:  Number
     });
-let short_url=0;
 
 var urlShortner  = mongoose.model('urlShortner',urlSchema);
 
@@ -45,7 +44,7 @@ app.get('/', function(req, res){
 
 //api point
   app.post('/api/shorturl/new', (req,res,next)=>{
-  let webUrl = new urlShortner({original_url:req.body.url,short_url:short_url+1});
+  let webUrl = new urlShortner({original_url:req.body.url,short_url:process.env.COUNTER+1});
   webUrl.save((err,data)=>{
                       if (err) throw(err);
     console.log("POST "+ data)//remove it later
