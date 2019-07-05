@@ -5,7 +5,15 @@ var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-var dbConn = mongo.MongoClient.connect('mongo://localhost:27017');//temp
+mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true });
+let Schema = mongoose.Schema;
+let urlSchema = new Schema({
+      original_url: String,
+      short_url:  Number
+    });
+
+var urlShortner  = mongoose.model('urlShortner',urlSchema);
+
 
 var cors = require('cors');
 
@@ -33,19 +41,11 @@ app.get('/', function(req, res){
   
 // your first API endpoint... 
 app.post('/api/shorturl/new', function (req, res) {
-    dbConn.then(function(db) {
-        delete req.body._id; // for safety reasons
-        db.collection('feedbacks').insertOne(req.body);
-    });    
-   let short_url= Math.floor(Math.random()*200);
-    res.json({"original_url":req.body.url,
-             "short_url":short_url});
-}).get('/api/shorturl/:new',  function(req, res) {
-    dbConn.then(function(db) {
-        db.collection('feedbacks').find({}).toArray().then(function(feedbacks) {
-            res.status(200).json(feedbacks);
-        });
-    });
+   urlShortner.create(req.body.url,function(err,data){
+      if(err) return done(err);
+            done(null, data);
+    })
+    
 });
 
 
