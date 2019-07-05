@@ -41,16 +41,12 @@ app.get('/', function(req, res){
 
   
 // your first API endpoint... 
-app.post('/api/shorturl/new', function (req, res) {
-    let newLink = new urlShortner({original_url: req.body.url,
-                                   short_url:  short_url++});
-  var promise = newLink .save();
- 
-  promise.then((err,data)=>{
-             if(err) return(err);
-             return res.send(data);
-             });
- 
+app.post('/api/shorturl/new', (req,res,next)=>{
+  
+});
+  
+app.get('/api/shorturl/:surl', (req,res,next)=>{
+  
 });
 
 // not found
