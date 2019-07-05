@@ -10,12 +10,18 @@ mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true }).then(() => con
   .catch(err => console.log(err));
 
 let Schema = mongoose.Schema;
+//website url schema
 let urlSchema = new Schema({
-      original_url: String,
-      short_url:  Number
-    });
+                      original_url: String,
+                      short_url:  Number
+                    });
+let urlShortner  = mongoose.model('urlShortner',urlSchema);
 
-var urlShortner  = mongoose.model('urlShortner',urlSchema);
+//counter schema
+let counterSchema = new Schema({
+                      counter:Number
+                    });
+let uniqueCounter = mongoose.model('uniqueCounter',counterSchema)
 
 
 var cors = require('cors');
@@ -43,15 +49,15 @@ app.get('/', function(req, res){
 });
 
 //api point
-  app.post('/api/shorturl/new', (req,res,next)=>{
-  let webUrl = new urlShortner({original_url:req.body.url,short_url:process.env.COUNTER+1});
-  webUrl.save((err,data)=>{
-                      if (err) throw(err);
-    console.log("POST "+ data)//remove it later
-                       return  res.json({original_url:data.original_url,short_url:data.short_url})
-                             }
-              );
-});
+//   app.post('/api/shorturl/new', (req,res,next)=>{
+//   let webUrl = new urlShortner({original_url:req.body.url,short_url:process.env.COUNTER+1});
+//   webUrl.save((err,data)=>{
+//                       if (err) throw(err);
+//     console.log("POST "+ data)//remove it later
+//                        return  res.json({original_url:data.original_url,short_url:data.short_url})
+//                              }
+//               );
+// });
 
 // app.get('/api/shorturl/:surl', (req,res,next)=>{
 //   let Model = mongoose.model('urlShortner',urlSchema);
