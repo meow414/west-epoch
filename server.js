@@ -48,23 +48,23 @@ app.get('/', function(req, res){
 });
 
 //api point
-//   app.post('/api/shorturl/new', (req,res,next)=>{
+  app.post('/api/shorturl/new', (req,res,next)=>{
 
-    // let counter = new uniqueCounter({counter:0});
-    // counter.save((err,data)=>{
-    //              if (err) throw(err);
-    //              return res.json({counter:data.counter})
-    //             })
-    // console.log(counter)
+    let counter = new uniqueCounter({counter:0});
+    counter.save((err,data)=>{
+                 if (err) throw(err);
+                 return res.json({counter:data.counter})
+                });
+    console.log(counter)
 
-//   let webUrl = new urlShortner({original_url:req.body.url,short_url:process.env.COUNTER+1});
-//   webUrl.save((err,data)=>{
-//                       if (err) throw(err);
-//     console.log("POST "+ data)//remove it later
-//                        return  res.json({original_url:data.original_url,short_url:data.short_url})
-//                              }
-//               );
-// });
+  let webUrl = new urlShortner({original_url:req.body.url,short_url:1});
+  webUrl.save((err,data)=>{
+                      if (err) throw(err);
+    console.log("POST "+ data)//remove it later
+                       return  res.json({original_url:data.original_url,short_url:data.short_url})
+                             }
+              );
+});
 
 // app.get('/api/shorturl/:surl', (req,res,next)=>{
 //   let Model = mongoose.model('urlShortner',urlSchema);
