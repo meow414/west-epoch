@@ -14,8 +14,8 @@ POST [project_url]/api/shorturl/new - body (urlencoded) :  url=https://www.googl
 
 #### Usage:
 
-[this_project_url]/api/shorturl/3
+[this_project_url]/api/shorturl/4: https://west-epoch.glitch.me/api/shorturl/4
 
 #### Will redirect to:
 
-https://www.freecodecamp.org/forum/# west-epoch
+http://asmrion.com/# west-epoch
