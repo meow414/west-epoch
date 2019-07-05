@@ -51,13 +51,19 @@ app.get('/', function(req, res){
 //POST url to make it short
   app.post('/api/shorturl/new', (req,res,next)=>{//POST START
     let reg= /^(?:http(s)?:\/\/)/gi;
+    let validateUrl ="";
     if(reg.test(req.body.url)){
-      let str = req.body.url;
-      str =str.replace(reg, "");
-      //et withoutHTTP = (req.body.url).match(/[^https://]/gi).join("");
-      console.log(str)
+      let withoutHTTP = req.body.url;
+      withoutHTTP =withoutHTTP.replace(reg, "");
+      dns.lookup(withoutHTTP, function (err, addresses, family) {
+       validateUrl=addresses;
+      });
+    }else{
+      dns.lookup(req.body.url, function (err, addresses, family) {
+       validateUrl=addresses;
+      });
     }
-    //console.log(req.body.url)
+    
     // dns.lookup("www.canva.com", function (err, addresses, family) {
     // //console.log(addresses);
     // });
