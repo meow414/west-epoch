@@ -51,26 +51,10 @@ app.get('/', function(req, res){
 //POST url to make it short
   app.post('/api/shorturl/new', (req,res,next)=>{//POST START
     let reg= /^(?:http(s)?:\/\/)/gi;
-    
-   let validateURL=(req, res, callback)=>{
-   if(reg.test(req.body.url)){
-      let withoutHTTP = req.body.url;
-      withoutHTTP =withoutHTTP.replace(reg, "");
-      dns.lookup(withoutHTTP, function (err, addresses, family) {
-       callback(addresses);
-      });
+    if(!reg.test(req.body.url)){
+      res.json({"error":"invalid URL"})
     }else{
-      dns.lookup(req.body.url, function (err, addresses, family) {
-       callback(addresses);
-      });
-    }
-    }
-   
-    validateURL(req,function(err,data){
-      if(err) throw (err);
-      console.log(data);
-    })
-//     urlShortner.find({original_url:req.body.url},(err,data)=>{
+      //     urlShortner.find({original_url:req.body.url},(err,data)=>{
 //         if(err){
 //                 throw (err);
 //           }else if(data.length!==0){
@@ -91,6 +75,20 @@ app.get('/', function(req, res){
             
 //           }
 //     });
+    }
+    
+
+//    if(reg.test(req.body.url)){
+//       let withoutHTTP = req.body.url;
+//       withoutHTTP =withoutHTTP.replace(reg, "");
+//       dns.lookup(withoutHTTP, function (err, addresses, family) {
+//        return addresses;
+//       });
+//     }
+
+   
+
+
     
     // let counter = new uniqueCounter({counter:0});
     // counter.save((err,data)=>{
