@@ -71,14 +71,18 @@ app.get('/', function(req, res){
     // console.log(counter) 
 });
 
-// app.get('/api/shorturl/:surl', (req,res,next)=>{
-//   let Model = mongoose.model('urlShortner',urlSchema);
-//   Model.findOne({ "short_url": req.params.surl },function(err,data){
-//     if (err) throw(err);
-//     console.log("GET "+data)
-//     return res.redirect(data.original_url);
-//   })
-// });
+app.get('/api/shorturl/:surl', (req,res,next)=>{
+  urlShortner.findOne({ "short_url": req.params.surl },function(err,data){
+       if(data){
+      if (err) throw(err);
+      console.log("GET "+data)
+      return res.redirect(data.original_url);
+      }else{
+        res.status(404);
+        res.type('txt').send(``);
+      }
+  })
+});
 
 // not found
 app.use(function(req, res, next){
