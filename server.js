@@ -42,11 +42,13 @@ app.get('/', function(req, res){
   
 // your first API endpoint... 
 app.post('/api/shorturl/new', function (req, res) {
-   urlShortner.create(req.body.url,function(err,data){
-      if(err) return (err);
-        return   res.json({url:req.body.url});
-    })
-    
+    let newLink = new urlShortner({original_url: req.body.url,
+                                   short_url:  short_url++});
+  newLink.save((err,data)=>{
+             if(err) return(err);
+             return res.send(data);
+             });
+ 
 });
 
 
