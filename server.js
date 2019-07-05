@@ -51,8 +51,8 @@ app.get('/', function(req, res){
 //POST url to make it short
   app.post('/api/shorturl/new', (req,res,next)=>{//POST START
     //console.log(req.body.url)
-    dns.lookup("canva.com", function (err, addresses, family) {
-    console.log(err.code);
+    dns.lookup("www.canva.com", function (err, addresses, family) {
+    console.log(addresses);
     });
     
 //     urlShortner.find({original_url:req.body.url},(err,data)=>{
