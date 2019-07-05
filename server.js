@@ -49,15 +49,20 @@ app.get('/', function(req, res){
 
 //api point
   app.post('/api/shorturl/new', (req,res,next)=>{
+    let sCounter;
+    (uniqueCounter.findOneAndUpdate({},{$inc:{'counter': 1}},function(err,data){
+      if (err) throw(err);
+      return sCounter=data.counter;
+    }))();
 
-    let counter = new uniqueCounter({counter:0});
-    counter.save((err,data)=>{
-                 if (err) throw(err);
-                 return res.json({counter:data.counter})
-                });
-    console.log(counter)
+    // let counter = new uniqueCounter({counter:0});
+    // counter.save((err,data)=>{
+    //              if (err) throw(err);
+    //              return res.json({counter:data.counter})
+    //             });
+    // console.log(counter)
 
-  let webUrl = new urlShortner({original_url:req.body.url,short_url:1});
+  let webUrl = new urlShortner({original_url:req.body.url,short_url:sCounter});
   webUrl.save((err,data)=>{
                       if (err) throw(err);
     console.log("POST "+ data)//remove it later
