@@ -44,13 +44,20 @@ app.get('/', function(req, res){
 app.post('/api/shorturl/new', function (req, res) {
     let newLink = new urlShortner({original_url: req.body.url,
                                    short_url:  short_url++});
-  newLink.save((err,data)=>{
+  var promise = newLink .save();
+ 
+  promise.then((err,data)=>{
              if(err) return(err);
              return res.send(data);
              });
  
 });
 
+// not found
+app.use(function(req, res, next){
+  res.status(404);
+  res.type('txt').send('Not found');
+});
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
