@@ -6,18 +6,7 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = process.env.MONGO_URI;
-//const client = new MongoClient(uri, { useNewUrlParser: true });
-  
-/*client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  perform actions on the collection object
-  client.close();
-});*/
-
-
-mongoose.connect(uri,{ useNewUrlParser: true }).then(() => console.log('MongoDB Connected'))
+mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true }).then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
 let Schema = mongoose.Schema;
@@ -55,23 +44,23 @@ app.get('/', function(req, res){
 });
 
 
-  app.post('/api/shorturl/new', (req,res,next)=>{
-  let webUrl = new urlShortner({original_url:req.body.url,short_url:short_url++});
-  webUrl.save().then((err,newurl)=>{
-                      if (err) throw(err);
-                     return  res.json(newurl)
-                             });
-  next();
-});
+//   app.post('/api/shorturl/new', (req,res,next)=>{
+//   let webUrl = new urlShortner({original_url:req.body.url,short_url:short_url++});
+//   webUrl.save().then((err,newurl)=>{
+//                       if (err) throw(err);
+//                      return  res.json(newurl)
+//                              });
+//   next();
+// });
 
-app.get('/api/shorturl/:surl', (req,res,next)=>{
-  let Model = mongoose.model('urlShortner',urlSchema);
-  Model.find({ short_url: req.params.surl },function(err,data){
-    if (err) throw(err);
-    res.json(data);
-  })
-  next();
-});
+// app.get('/api/shorturl/:surl', (req,res,next)=>{
+//   let Model = mongoose.model('urlShortner',urlSchema);
+//   Model.find({ short_url: req.params.surl },function(err,data){
+//     if (err) throw(err);
+//     res.json(data);
+//   })
+//   next();
+// });
 
 // not found
 app.use(function(req, res, next){
