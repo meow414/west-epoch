@@ -50,10 +50,12 @@ app.get('/', function(req, res){
 
 //POST url to make it short
   app.post('/api/shorturl/new', (req,res,next)=>{//POST START
+    let reg= /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gi;
+    console.log(reg.exec(req.body.url))
     //console.log(req.body.url)
-    dns.lookup("www.canva.com", function (err, addresses, family) {
-    console.log(addresses);
-    });
+    // dns.lookup("www.canva.com", function (err, addresses, family) {
+    // //console.log(addresses);
+    // });
     
 //     urlShortner.find({original_url:req.body.url},(err,data)=>{
 //         if(err){
