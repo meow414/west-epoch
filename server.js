@@ -8,12 +8,17 @@ var mongoose = require('mongoose');
 
 const MongoClient = require('mongodb').MongoClient;
 const uri = process.env.MONGO_URI;
-const client = new MongoClient(uri, { useNewUrlParser: true });
+//const client = new MongoClient(uri, { useNewUrlParser: true });
+  
+/*client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  perform actions on the collection object
+  client.close();
+});*/
 
 
-
-//mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true }).then(() => console.log('MongoDB Connected'))
-  //.catch(err => console.log(err));
+mongoose.connect(uri,{ useNewUrlParser: true }).then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
 
 let Schema = mongoose.Schema;
 let urlSchema = new Schema({
@@ -49,10 +54,7 @@ app.get('/', function(req, res){
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-  
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
+
   app.post('/api/shorturl/new', (req,res,next)=>{
   let webUrl = new urlShortner({original_url:req.body.url,short_url:short_url++});
   webUrl.save().then((err,newurl)=>{
@@ -61,11 +63,7 @@ client.connect(err => {
                              });
   next();
 });
-  client.close();
-});
-// your first API endpoint... 
 
-  
 app.get('/api/shorturl/:surl', (req,res,next)=>{
   let Model = mongoose.model('urlShortner',urlSchema);
   Model.find({ short_url: req.params.surl },function(err,data){
