@@ -54,42 +54,36 @@ app.get('/', function(req, res){
     if(!reg.test(req.body.url)){
       res.json({"error":"invalid URL"})
     }else{
-      //     urlShortner.find({original_url:req.body.url},(err,data)=>{
-//         if(err){
-//                 throw (err);
-//           }else if(data.length!==0){
-//               res.json({"original_url":data[0].original_url,"short_url":data[0].short_url});
-//           }else{
+        let withoutHTTP = req.body.url;
+        withoutHTTP =withoutHTTP.replace(reg, "");
+         dns.lookup(withoutHTTP, function (err, addresses, family){
+          console.log(addresses);
+         }
+    
+      }
+          urlShortner.find({original_url:req.body.url},(err,data)=>{
+          if(err){
+                throw (err);
+          }else if(data.length!==0){
+              res.json({"original_url":data[0].original_url,"short_url":data[0].short_url});
+          }else{
    
-//           uniqueCounter.findOneAndUpdate({},{$inc:{'counter': 1}},(err,data)=>{
-//                                    if(err){
-//                                      throw (err);
-//                                    }else{
-//                                      let webUrl = new urlShortner({"original_url":req.body.url,"short_url":data.counter})
-//                                      webUrl.save((err,data)=>{
-//                                         if(err) throw (err);
-//                                         return res.json({"original_url":data.original_url,"short_url":data.short_url})
-//                                       });                                  
-//                                    }
-//                                    });
+          uniqueCounter.findOneAndUpdate({},{$inc:{'counter': 1}},(err,data)=>{
+                                   if(err){
+                                     throw (err);
+                                   }else{
+                                     let webUrl = new urlShortner({"original_url":req.body.url,"short_url":data.counter})
+                                     webUrl.save((err,data)=>{
+                                        if(err) throw (err);
+                                        return res.json({"original_url":data.original_url,"short_url":data.short_url})
+                                      });                                  
+                                   }
+                                   });
             
-//           }
-//     });
-    }
-    
-
-//    if(reg.test(req.body.url)){
-//       let withoutHTTP = req.body.url;
-//       withoutHTTP =withoutHTTP.replace(reg, "");
-//       dns.lookup(withoutHTTP, function (err, addresses, family) {
-//        return addresses;
-//       });
-//     }
-
-   
-
-
-    
+          }
+          });
+      
+       
     // let counter = new uniqueCounter({counter:0});
     // counter.save((err,data)=>{
     //              if (err) throw(err);
