@@ -5,7 +5,9 @@ var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true }).then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
+
 let Schema = mongoose.Schema;
 let urlSchema = new Schema({
       original_url: String,
@@ -31,7 +33,8 @@ app.use(cors());
 /** this project needs to parse POST bodies **/
 // you should mount the body-parser here
 
-app.use(bodyParser.urlencoded({ extended: false }));//temp
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
