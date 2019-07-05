@@ -43,15 +43,15 @@ app.get('/', function(req, res){
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-
-//   app.post('/api/shorturl/new', (req,res,next)=>{
-//   let webUrl = new urlShortner({original_url:req.body.url,short_url:short_url++});
-//   webUrl.save().then((err,newurl)=>{
-//                       if (err) throw(err);
-//                      return  res.json(newurl)
-//                              });
-//   next();
-// });
+//api point
+  app.post('/api/shorturl/new', (req,res,next)=>{
+  let webUrl = new urlShortner({original_url:req.body.url,short_url:short_url++});
+  webUrl.save().then((err,newurl)=>{
+                      if (err) throw(err);
+                     return  res.json(newurl)
+                             });
+  next();
+});
 
 // app.get('/api/shorturl/:surl', (req,res,next)=>{
 //   let Model = mongoose.model('urlShortner',urlSchema);
