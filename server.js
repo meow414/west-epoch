@@ -48,7 +48,7 @@ app.get('/', function(req, res){
   let webUrl = new urlShortner({original_url:req.body.url,short_url:short_url+1});
   webUrl.save((err,data)=>{
                       if (err) throw(err);
-    console.log(data)//remove it later
+    console.log("POST "+ data)//remove it later
                        return  res.json({original_url:data.original_url,short_url:data.short_url})
                              }
               );
@@ -58,9 +58,9 @@ app.get('/api/shorturl/:surl', (req,res,next)=>{
   let Model = mongoose.model('urlShortner',urlSchema);
   Model.findOne({ "short_url": req.params.surl },function(err,data){
     if (err) throw(err);
-    res.redirect(data.url);
+    console.log("GET "+data)
+    return res.redirect(data.original_url);
   })
-  next();
 });
 
 // not found
