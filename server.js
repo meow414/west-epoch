@@ -56,6 +56,7 @@ app.get('/', function(req, res){
       let withoutHTTP = req.body.url;
       withoutHTTP =withoutHTTP.replace(reg, "");
       dns.lookup(withoutHTTP, function (err, addresses, family) {
+       
        console.log(addresses);
       });
     }else{
