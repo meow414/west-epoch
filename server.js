@@ -46,21 +46,22 @@ app.get('/', function(req, res){
 //api point
   app.post('/api/shorturl/new', (req,res,next)=>{
   let webUrl = new urlShortner({original_url:req.body.url,short_url:short_url+1});
-  webUrl.save((err,newurl)=>{
+  webUrl.save((err,data)=>{
                       if (err) throw(err);
-                       return  res.json(newurl)
+    console.log(data)//remove it later
+                       return  res.json({original_url:data.original_url,short_url:data.short_url})
                              }
               );
 });
 
-// app.get('/api/shorturl/:surl', (req,res,next)=>{
-//   let Model = mongoose.model('urlShortner',urlSchema);
-//   Model.find({ short_url: req.params.surl },function(err,data){
-//     if (err) throw(err);
-//     res.json(data);
-//   })
-//   next();
-// });
+app.get('/api/shorturl/:surl', (req,res,next)=>{
+  let Model = mongoose.model('urlShortner',urlSchema);
+  Model.findOne({ "short_url": req.params.surl },function(err,data){
+    if (err) throw(err);
+    res.redirect(data.url);
+  })
+  next();
+});
 
 // not found
 app.use(function(req, res, next){
