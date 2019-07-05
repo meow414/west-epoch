@@ -50,24 +50,25 @@ app.get('/', function(req, res){
 //api point
   app.post('/api/shorturl/new', (req,res,next)=>{
     
-    uniqueCounter.findOneAndUpdate({},{$inc:{'counter': 1}})
-                  .then(count=>{
-       let webUrl = new urlShortner({original_url:req.body.url,short_url:count.counter});
-       webUrl.save((err,data)=>{
-                      if (err) throw(err);
-       console.log("POST "+ data)//remove it later
-                       return  res.json({original_url:data.original_url,short_url:data.short_url})
+    uniqueCounter.findOneAndUpdate({},{$inc:{'counter': 1}},(err,data)=>{
+                                   if(err){
+                                     throw (err);
+                                   }else{
+      let webUrl = new urlShortner({original_url:req.body.url,short_url:data.counter});
+      webUrl.save((err,data)=>{
+      if (err) throw(err);
+      console.log("POST "+ data)//remove it later
+      return  res.json({original_url:data.original_url,short_url:data.short_url})
                    });
-        });
-
+                                   }
+                                   });
+    
     // let counter = new uniqueCounter({counter:0});
     // counter.save((err,data)=>{
     //              if (err) throw(err);
     //              return res.json({counter:data.counter})
     //             });
-    // console.log(counter)
-
- 
+    // console.log(counter) 
 });
 
 // app.get('/api/shorturl/:surl', (req,res,next)=>{
