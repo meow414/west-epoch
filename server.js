@@ -51,7 +51,10 @@ app.get('/', function(req, res){
 //POST url to make it short
   app.post('/api/shorturl/new', (req,res,next)=>{//POST START
     let reg= /^(?:http(s)?:\/\/)/gi;
-    console.log(reg.test(req.body.url))
+    if(reg.test(req.body.url)){
+      let withoutHTTP = (req.body.url).match(/[^http://|https://]/g).join("");
+      console.log(withoutHTTP)
+    }
     //console.log(req.body.url)
     // dns.lookup("www.canva.com", function (err, addresses, family) {
     // //console.log(addresses);
