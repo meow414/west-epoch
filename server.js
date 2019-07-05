@@ -4,6 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+let dns = require('dns');
 
 
 mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true }).then(() => console.log('MongoDB Connected'))
@@ -47,30 +48,34 @@ app.get('/', function(req, res){
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-//api point
-  app.post('/api/shorturl/new', (req,res,next)=>{
-    
-    urlShortner.find({original_url:req.body.url},(err,data)=>{
-        if(err){
-                throw (err);
-          }else if(data.length!==0){
-              res.json({"original_url":data[0].original_url,"short_url":data[0].short_url});
-          }else{
-   
-          uniqueCounter.findOneAndUpdate({},{$inc:{'counter': 1}},(err,data)=>{
-                                   if(err){
-                                     throw (err);
-                                   }else{
-                                     let webUrl = new urlShortner({"original_url":req.body.url,"short_url":data.counter})
-                                     webUrl.save((err,data)=>{
-                                        if(err) throw (err);
-                                        return res.json({"original_url":data.original_url,"short_url":data.short_url})
-                                      });                                  
-                                   }
-                                   });
-            
-          }
+//POST url to make it short
+  app.post('/api/shorturl/new', (req,res,next)=>{//POST START
+    //console.log(req.body.url)
+    dns.lookup("canva.com", function (err, addresses, family) {
+    console.log(err.code);
     });
+    
+//     urlShortner.find({original_url:req.body.url},(err,data)=>{
+//         if(err){
+//                 throw (err);
+//           }else if(data.length!==0){
+//               res.json({"original_url":data[0].original_url,"short_url":data[0].short_url});
+//           }else{
+   
+//           uniqueCounter.findOneAndUpdate({},{$inc:{'counter': 1}},(err,data)=>{
+//                                    if(err){
+//                                      throw (err);
+//                                    }else{
+//                                      let webUrl = new urlShortner({"original_url":req.body.url,"short_url":data.counter})
+//                                      webUrl.save((err,data)=>{
+//                                         if(err) throw (err);
+//                                         return res.json({"original_url":data.original_url,"short_url":data.short_url})
+//                                       });                                  
+//                                    }
+//                                    });
+            
+//           }
+//     });
     
     // let counter = new uniqueCounter({counter:0});
     // counter.save((err,data)=>{
@@ -78,7 +83,7 @@ app.get('/', function(req, res){
     //              return res.json({counter:data.counter})
     //             });
     // console.log(counter) 
-});
+});//POST END
 
 app.get('/api/shorturl/:surl', (req,res,next)=>{
   urlShortner.findOne({ "short_url": req.params.surl },function(err,data){
