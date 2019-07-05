@@ -96,7 +96,7 @@ app.get('/api/shorturl/:surl', (req,res,next)=>{
       return res.redirect(data.original_url);
       }else{
         res.status(404);
-        res.type('txt').send(`short url does not exist for https://west-epoch.glitch.me/api/shorturl/${req.params.surl}`);
+        res.type('txt').send(` https://west-epoch.glitch.me/api/shorturl/${req.params.surl} does not have corresponding original url in database`);
       }
   })
 });
