@@ -49,11 +49,16 @@ app.get('/', function(req, res){
 
 //api point
   app.post('/api/shorturl/new', (req,res,next)=>{
-    let sCounter;
-    (uniqueCounter.findOneAndUpdate({},{$inc:{'counter': 1}},function(err,data){
-      if (err) throw(err);
-      return sCounter=data.counter;
-    }))();
+    
+    uniqueCounter.findOneAndUpdate({},{$inc:{'counter': 1}})
+                  .then(count=>{
+       let webUrl = new urlShortner({original_url:req.body.url,short_url:count.counter});
+       webUrl.save((err,data)=>{
+                      if (err) throw(err);
+       console.log("POST "+ data)//remove it later
+                       return  res.json({original_url:data.original_url,short_url:data.short_url})
+                   });
+        });
 
     // let counter = new uniqueCounter({counter:0});
     // counter.save((err,data)=>{
@@ -62,13 +67,7 @@ app.get('/', function(req, res){
     //             });
     // console.log(counter)
 
-  let webUrl = new urlShortner({original_url:req.body.url,short_url:sCounter});
-  webUrl.save((err,data)=>{
-                      if (err) throw(err);
-    console.log("POST "+ data)//remove it later
-                       return  res.json({original_url:data.original_url,short_url:data.short_url})
-                             }
-              );
+ 
 });
 
 // app.get('/api/shorturl/:surl', (req,res,next)=>{
