@@ -23,15 +23,6 @@ let counterSchema = new Schema({
                     });
 let uniqueCounter = mongoose.model('uniqueCounter',counterSchema);
 
-function incCounter(req,res){
-  let counter = new uniqueCounter({counter:0});
-    counter.save((err,data)=>{
-       if (err) throw(err);
-      return res.json({counter:data.counter})
-    })
-      console.log(counter)
-}
-
 var cors = require('cors');
 
 var app = express();
@@ -58,6 +49,14 @@ app.get('/', function(req, res){
 
 //api point
 //   app.post('/api/shorturl/new', (req,res,next)=>{
+
+    // let counter = new uniqueCounter({counter:0});
+    // counter.save((err,data)=>{
+    //              if (err) throw(err);
+    //              return res.json({counter:data.counter})
+    //             })
+    // console.log(counter)
+
 //   let webUrl = new urlShortner({original_url:req.body.url,short_url:process.env.COUNTER+1});
 //   webUrl.save((err,data)=>{
 //                       if (err) throw(err);
