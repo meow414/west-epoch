@@ -40,9 +40,7 @@ app.post('/api/shorturl/new', function (req, res) {
    let short_url= Math.floor(Math.random()*200);
     res.json({"original_url":req.body.url,
              "short_url":short_url});
-});
-
-app.get('/api/shorturl/:new',  function(req, res) {
+}).get('/api/shorturl/:new',  function(req, res) {
     dbConn.then(function(db) {
         db.collection('feedbacks').find({}).toArray().then(function(feedbacks) {
             res.status(200).json(feedbacks);
