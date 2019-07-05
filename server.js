@@ -54,12 +54,9 @@ app.get('/', function(req, res){
                                    if(err){
                                      throw (err);
                                    }else{
-      let webUrl = new urlShortner({original_url:req.body.url,short_url:data.counter});
-      webUrl.save((err,data)=>{
-      if (err) throw(err);
-      console.log("POST "+ data)//remove it later
-      return  res.json({original_url:data.original_url,short_url:data.short_url})
-                   });
+                                     
+let webUrl = new urlShortner({"original_url":req.body.url,"short_url":data})
+                                   
                                    }
                                    });
     
@@ -79,7 +76,7 @@ app.get('/api/shorturl/:surl', (req,res,next)=>{
       return res.redirect(data.original_url);
       }else{
         res.status(404);
-        res.type('txt').send(``);
+        res.type('txt').send(`short url does not exist for https://west-epoch.glitch.me/api/shorturl/${req.params.surl}`);
       }
   })
 });
