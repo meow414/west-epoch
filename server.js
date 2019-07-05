@@ -50,17 +50,16 @@ app.get('/', function(req, res){
 
 //POST url to make it short
   app.post('/api/shorturl/new', (req,res,next)=>{//POST START
+    
     let reg= /^(?:http(s)?:\/\/)/gi;
+    
     if(!reg.test(req.body.url)){
       res.json({"error":"invalid URL"})
     }else{
-        let withoutHTTP = req.body.url;
-        withoutHTTP =withoutHTTP.replace(reg, "");
-         dns.lookup(withoutHTTP, function (err, addresses, family){
-          console.log(addresses);
-         }
-    
-      }
+      let withoutHTTP = req.body.url;
+      withoutHTTP =withoutHTTP.replace(reg, "");
+      dns.lookup(withoutHTTP, function (err, addresses, family){
+        if(addresses!==undefined){
           urlShortner.find({original_url:req.body.url},(err,data)=>{
           if(err){
                 throw (err);
@@ -82,14 +81,11 @@ app.get('/', function(req, res){
             
           }
           });
-      
-       
-    // let counter = new uniqueCounter({counter:0});
-    // counter.save((err,data)=>{
-    //              if (err) throw(err);
-    //              return res.json({counter:data.counter})
-    //             });
-    // console.log(counter) 
+          }else{res.json({"error":"Invalid url"})}
+         });
+    
+    }
+    
 });//POST END
 
 app.get('/api/shorturl/:surl', (req,res,next)=>{
